@@ -10,18 +10,6 @@ Use the package manager [npm](https://www.npmjs.com/) to install dependencies.
 ```bash
 npm install
 ```
-
-## Usage
-
-1. Create a .env file in the root directory and add the following environment variables (replace all #### with your own values):
-```bash
-PORT=####
-MONGO_USERNAME=####
-MONGO_PASSWORD=####
-MONGO_CLUSTER=####
-MONGO_DBNAME=####
-ACCESS_TOKEN=####
-```
 2. Run the following command to start the application:
 ```bash
 npm run dev
