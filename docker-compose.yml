@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  user:
+    build:
+      context: ./User
+      dockerfile: Dockerfile
+    env_file:
+      - ./User/.env
+    volumes:
+      - ./User:/app
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+  cart:
+    build:
+      context: ./Cart
+      dockerfile: Dockerfile
+    env_file:
+      - ./Cart/.env
+    volumes:
+      - ./Cart:/app
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+  product:
+    build:
+      context: ./Product
+      dockerfile: Dockerfile
+    env_file:
+      - ./Product/.env
+    volumes:
+      - ./Product:/app
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - user
+      - cart
+      - product
+    networks:
+      - app-network
+
+volumes:
+  mongo-data:
+
+networks:
+  app-network:
+    driver: bridge
